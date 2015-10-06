@@ -1,5 +1,5 @@
-{ mkDerivation, base, bytestring, containers, lens, stdenv, text
-, xlsx
+{ mkDerivation, base, bytestring, containers, directory, lens
+, stdenv, text, xlsx
 }:
 mkDerivation {
   pname = "ybapp";
@@ -8,7 +8,7 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base bytestring containers lens text xlsx
+    base bytestring containers directory lens text xlsx
   ];
   description = "Downloader for Yellow Barn applicant files";
   license = stdenv.lib.licenses.mit;

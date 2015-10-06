@@ -7,10 +7,12 @@ import qualified Data.ByteString.Lazy as L
 import qualified Data.Map as M
 import Data.Text (Text)
 import Control.Lens
+import System.Directory (getCurrentDirectory)
 
 main :: IO ()
 main = do
-  bs <- L.readFile "test.xlsx"
+  execP <- getCurrentDirectory
+  bs <- L.readFile (execP ++ "/test.xlsx")
   -- let value = toXlsx bs ^? ixSheet "sheet1" .
   --             ixCell (3,2) . cellValue . _Just
   let value = getSheetNames $ toXlsx bs
