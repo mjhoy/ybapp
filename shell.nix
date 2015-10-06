@@ -4,8 +4,8 @@ let
 
   inherit (nixpkgs) pkgs;
 
-  f = { mkDerivation, base, bytestring, containers, directory, lens
-      , stdenv, text, xlsx
+  f = { mkDerivation, base, bytestring, containers, directory
+      , filepath, lens, stdenv, text, xlsx
       }:
       mkDerivation {
         pname = "ybapp";
@@ -14,7 +14,7 @@ let
         isLibrary = false;
         isExecutable = true;
         executableHaskellDepends = [
-          base bytestring containers directory lens text xlsx
+          base bytestring containers directory filepath lens text xlsx
         ];
         description = "Downloader for Yellow Barn applicant files";
         license = stdenv.lib.licenses.mit;
