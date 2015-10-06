@@ -1,0 +1,34 @@
+* ybapp
+
+A little application to parse an xlsx file and download any linked
+files therein.
+
+** Development
+
+To build ~ybapp~:
+
+*** using ~stack~ (easy)
+
+1. [[https://github.com/commercialhaskell/stack#how-to-install][Install stack]]
+2. Clone the respository and build with stack:
+   #+BEGIN_SRC sh
+     git clone https://github.com/mjhoy/ybapp.git
+     cd ybapp
+     stack setup
+     stack build
+     # executable now installed in ...
+   #+END_SRC
+
+*** using ~nix~
+
+(assuming you've got a working nix install), all you should need to do
+is run ~nix-shell~ in the repository to set up a build environment,
+and then the normal cabal commands:
+
+#+BEGIN_SRC sh
+  cd ybapp
+  nix-shell
+  cabal configure
+  cabal build
+  # should produce executable in dist/
+#+END_SRC
