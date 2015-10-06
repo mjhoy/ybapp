@@ -16,7 +16,7 @@ To build ~ybapp~:
      cd ybapp
      stack setup
      stack build
-     # executable now installed in ...
+     stack exec ybapp
    #+END_SRC
 
 *** using ~nix~
