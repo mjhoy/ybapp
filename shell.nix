@@ -5,8 +5,8 @@ let
   inherit (nixpkgs) pkgs;
 
   f = { mkDerivation, base, bytestring, containers, directory
-      , filepath, lens, process, regex-tdfa, snap-core, stdenv, text
-      , xlsx
+      , extra, filepath, hspec, lens, process, regex-tdfa, snap-core
+      , stdenv, text, xlsx
       }:
       mkDerivation {
         pname = "ybapp";
@@ -15,8 +15,12 @@ let
         isLibrary = false;
         isExecutable = true;
         executableHaskellDepends = [
-          base bytestring containers directory filepath lens process
+          base bytestring containers directory extra filepath lens process
           regex-tdfa snap-core text xlsx
+        ];
+        testHaskellDepends = [
+          base bytestring containers directory extra filepath hspec lens
+          process regex-tdfa snap-core text xlsx
         ];
         description = "Downloader for Yellow Barn applicant files";
         license = stdenv.lib.licenses.mit;
