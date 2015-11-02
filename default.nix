@@ -1,5 +1,5 @@
 { mkDerivation, base, bytestring, containers, directory, filepath
-, lens, stdenv, text, xlsx
+, lens, process, regex-tdfa, snap-core, stdenv, text, xlsx
 }:
 mkDerivation {
   pname = "ybapp";
@@ -8,7 +8,8 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base bytestring containers directory filepath lens text xlsx
+    base bytestring containers directory filepath lens process
+    regex-tdfa snap-core text xlsx
   ];
   description = "Downloader for Yellow Barn applicant files";
   license = stdenv.lib.licenses.mit;
