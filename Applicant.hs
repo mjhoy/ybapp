@@ -6,12 +6,14 @@ module Applicant ( ApplicantSheet
                  , applicants
                  , Applicant
                  , downloadURLs
+                 , name
                  , rowToApplicant
                  , processSheet
                  , processXlsx
                  , downloadSheet
                  ) where
 
+import Data.Monoid
 import Codec.Xlsx
 import Control.Lens
 import qualified Data.Text as T
@@ -31,6 +33,7 @@ data ApplicantSheet = ApplicantSheet {
   } deriving (Show)
 
 data Applicant = Applicant {
+  _name :: Maybe String,
   _downloadURLs :: [String]
   } deriving (Show)
 
@@ -43,11 +46,17 @@ matchYBUrl text = mapMaybe (\i -> i ^? (ix 0)) result
   where result :: [[String]] = (T.unpack text) =~ ("https?://(www\\.)yellowbarn.org[^\\S]*[a-zA-Z]+" :: String)
 
 rowToApplicant :: (Int, [(Int, Cell)]) -> Applicant
-rowToApplicant (_ridx, cols) = Applicant $ concat $ map colToUrl cols
+rowToApplicant (_ridx, cols) = Applicant name $ concat $ map colToUrl cols
   where colToUrl (_, cell) = case (cell ^. cellValue) of
                                    Just (CellText t) -> do
                                      matchYBUrl t
                                    _ -> []
+        name = do
+          cell <- cols ^? ix 0
+          case cell ^. _2 ^. cellValue of
+            Just (CellText t) -> return $ T.unpack t
+            _ -> Nothing
+
 
 
 processXlsx :: Xlsx -> [ApplicantSheet]
@@ -74,4 +83,5 @@ downloadSheet topdir sheet = do
     False -> do
       ybCreateDirectory dir
   forM_ (sheet ^. applicants) $ \applicant -> do
-    mapM_ (ybDownload dir) (applicant ^. downloadURLs)
+      let name' = fromMaybe "Unknown name" (applicant ^. name)
+      mapM_ (ybDownload dir (name' <> " -- ")) (applicant ^. downloadURLs)

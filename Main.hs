@@ -4,9 +4,9 @@
 module Main (main) where
 
 import Codec.Xlsx
-import Control.Lens
+-- import Control.Lens
 import qualified Data.ByteString.Lazy as L
-import qualified Data.Map as M
+-- import qualified Data.Map as M
 import System.Environment (getArgs)
 import System.FilePath.Posix ((</>))
 import System.Directory
@@ -24,7 +24,17 @@ main = do
   let excelFileA :: IO FilePath = case args of
         (x:_) -> return x
         _     -> do
-          putStr "Please enter a path to an excel (.xlsx) file, or drag the file (Mac) onto the terminal screen and press RETURN: "
+          putStrLn ""
+          putStrLn ""
+          putStrLn "           ---- YB Application downloader ----"
+          putStrLn ""
+          putStrLn "* Note: you can hit Control-C at any time to stop or exit this program."
+          putStrLn ""
+          putStrLn ""
+          putStrLn "Please drag an excel (.xlsx) file to process onto the"
+          putStrLn "terminal screen and press RETURN"
+          putStrLn ""
+          putStr "> "
           hFlush stdout
           l <- getLine
           return (trim l)
@@ -33,8 +43,12 @@ main = do
         (_:y:_) -> return y
         _       -> do
           let defaultDir = homeDir </> "Desktop/ybapp_downloads"
-          putStrLn "OK, now enter a folder path to download to"
-          putStr   $ "[Leave blank and just hit RETURN to use: " ++ defaultDir ++ "]: "
+          putStrLn ""
+          putStrLn "Please drag a folder to download files into onto the"
+          putStrLn "terminal screen and press RETURN"
+          putStrLn   $ "[Or just hit RETURN to use: " ++ defaultDir ++ "]: "
+          putStrLn ""
+          putStr "> "
           hFlush stdout
           l <- getLine
           case l of

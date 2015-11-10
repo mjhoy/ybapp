@@ -36,3 +36,11 @@ main = hspec $ do
             monteverdi <- sheet ^. applicants ^? ix 1
             monteverdi ^. downloadURLs ^? ix 0
       monteverdiURL `shouldBe` Just "http://www.yellowbarn.org/mv1.doc"
+
+    it "gets the right name" $ do
+      sheets <- sheetsA
+      let monteverdiName :: Maybe String = do
+            sheet <- sheets ^? ix 1 -- note: sheets appear to be alphabeticized
+            monteverdi <- sheet ^. applicants ^? ix 1
+            monteverdi ^. name
+      monteverdiName `shouldBe` Just "Monteverdi"

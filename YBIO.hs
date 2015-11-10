@@ -1,5 +1,6 @@
 module YBIO where
 
+import Data.Monoid
 import System.Directory
 import System.Process
 import System.IO
@@ -13,12 +14,15 @@ ybCreateDirectory dir = do
   putStrLn $ "Creating directory: " ++ dir
   createDirectory dir
 
-ybDownload :: FilePath -> String -> IO ()
-ybDownload cd url = do
+ybDownload :: FilePath -> -- Directory to download into
+              String ->   -- Prefix for the downloaded file name
+              String ->   -- URL
+              IO ()
+ybDownload cd prefix url = do
   let fileName = decodeYBUrl url
   case fileName of
     Just fn -> do
-      let ffn = cd </> (takeFileName fn)
+      let ffn = cd </> prefix <> (takeFileName fn)
           args = ["-sS", url, "-o", ffn]
           cmd = "curl"
       putStrLn $ "Downloading " ++ fn
